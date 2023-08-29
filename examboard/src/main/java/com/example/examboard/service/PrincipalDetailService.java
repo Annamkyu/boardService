@@ -1,6 +1,6 @@
 package com.example.examboard.service;
 
-import com.example.examboard.config.PricipalDetails;
+import com.example.examboard.config.PrincipalDetails;
 import com.example.examboard.entity.UserAccount;
 import com.example.examboard.repository.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +24,6 @@ public class PrincipalDetailService implements UserDetailsService {
         }
 
         UserAccount account = _account.get();
-        return new PricipalDetails(account);
+        return new PrincipalDetails(account);
     }
 }

@@ -1,5 +1,7 @@
 package com.example.examboard.config;
 
+import com.example.examboard.service.PrincipalOauth2UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -13,6 +15,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
+
+    @Autowired
+    PrincipalOauth2UserService principalOauth2UserService;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -30,6 +35,12 @@ public class SecurityConfig {
                 .logout(out -> out
                         .logoutSuccessUrl("/articles/lists")
                         .logoutUrl("/logout"))
+
+                .oauth2Login(oAuth -> oAuth
+                        .loginPage("/loginForm")
+                        .defaultSuccessUrl("/articles/lists",true)
+                        .userInfoEndpoint(userInfo-> userInfo
+                                .userService(principalOauth2UserService)))
 
                 .csrf(csrf -> csrf.disable());
         return http.build();
